@@ -1,0 +1,7 @@
+const App = require('./app');
+
+const app = new App();
+
+;(async () => {
+   await app.startup();
+})();
