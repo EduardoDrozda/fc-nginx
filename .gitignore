@@ -3,3 +3,5 @@ mysql
 !node/.docker/mysql
 
 node_modules
+
+.env
