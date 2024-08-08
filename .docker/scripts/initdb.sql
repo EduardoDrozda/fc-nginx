@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS fullcycledb;
+CREATE TABLE IF NOT EXISTS `fullcycledb`.`users` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL  
+);
