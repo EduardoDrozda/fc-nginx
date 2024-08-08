@@ -2,24 +2,29 @@ version: '3'
 
 services:
   db:
-      image: mysql:5.7               
-      command: --innodb-use-native-aio=0    
-      tty: true
-      volumes:
-        - ./mysql:/var/lib/mysql
-        - ./.docker/scripts:/docker-entrypoint-initdb.d
-      environment: 
-        - MYSQL_DATABASE=fullcycledb
-        - MYSQL_ROOT_PASSWORD=secret
-      ports:
-        - "3306:3306"
-      networks:
-        - app-network
+    image: mysql:5.7               
+    command: --innodb-use-native-aio=0    
+    tty: true
+    restart: always
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./.docker/scripts:/docker-entrypoint-initdb.d
+    environment: 
+      - MYSQL_DATABASE=fullcycledb
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
 
   app:
     build:
       context: .
       dockerfile: .docker/node/Dockerfile
+    container_name: app
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20m docker-entrypoint.sh
+    tty: true
+    restart: always
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
@@ -32,6 +37,8 @@ services:
     build: 
       context: .docker/nginx
       dockerfile: Dockerfile
+    tty: true
+    restart: always
     ports:
       - "8080:80"
     networks:
