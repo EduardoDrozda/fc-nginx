@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: .docker/node/Dockerfile
     container_name: app
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 20m docker-entrypoint.sh
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20m node src/index.mjs
     tty: true
     restart: always
     volumes:
